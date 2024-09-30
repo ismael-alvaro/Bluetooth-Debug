@@ -93,13 +93,13 @@ void bluetooth_debug(){
   */
 
   SerialBT.println("--------------------------------MPU--------------------------------");
-  SerialBT.print("Inicialização do Lora = ");           if(bluetooth_packet.lora_init)              SerialBT.println("OK"); else SerialBT.println("ERRO");
+  SerialBT.print("Inicialização do Lora = ");           if(bluetooth_packet.lora_init == 1)              SerialBT.println("OK"); else if(bluetooth_packet.lora_init == 0)              SerialBT.println("ERRO"); else SerialBT.println("NO INFO");
   SerialBT.println("--------------------------------SCU--------------------------------");
-  SerialBT.print("Inicialização da CAN Bus = ");        if(bluetooth_packet.can_bus_init)           SerialBT.println("OK"); else SerialBT.println("ERRO");
-  SerialBT.print("Conexão do módulo de internet = ");   if(bluetooth_packet.internet_modem)         SerialBT.println("OK"); else SerialBT.println("ERRO");
-  SerialBT.print("Conexão do cliente MQTT = ");         if(bluetooth_packet.mqtt_client_connection) SerialBT.println("OK"); else SerialBT.println("ERRO");
-  SerialBT.print("Inicialização do dispositivo SD = "); if(bluetooth_packet.sd_start)               SerialBT.println("OK"); else SerialBT.println("ERRO");
-  SerialBT.print("Checagem do dispositivo SD = ");      if(bluetooth_packet.check_sd)               SerialBT.println("OK"); else SerialBT.println("ERRO");
+  SerialBT.print("Inicialização da CAN Bus = ");        if(bluetooth_packet.can_bus_init == 1)           SerialBT.println("OK"); else if(bluetooth_packet.can_bus_init == 0)           SerialBT.println("ERRO"); else SerialBT.println("NO INFO");
+  SerialBT.print("Conexão do módulo de internet = ");   if(bluetooth_packet.internet_modem == 1)         SerialBT.println("OK"); else if(bluetooth_packet.internet_modem == 0)         SerialBT.println("ERRO"); else SerialBT.println("NO INFO");
+  SerialBT.print("Conexão do cliente MQTT = ");         if(bluetooth_packet.mqtt_client_connection == 1) SerialBT.println("OK"); else if(bluetooth_packet.mqtt_client_connection == 0) SerialBT.println("ERRO"); else SerialBT.println("NO INFO");
+  SerialBT.print("Inicialização do dispositivo SD = "); if(bluetooth_packet.sd_start == 1)               SerialBT.println("OK"); else if(bluetooth_packet.sd_start == 0)               SerialBT.println("ERRO"); else SerialBT.println("NO INFO");
+  SerialBT.print("Checagem do dispositivo SD = ");      if(bluetooth_packet.check_sd == 1)               SerialBT.println("OK"); else if(bluetooth_packet.check_sd == 0)               SerialBT.println("ERRO"); else SerialBT.println("NO INFO");
 
 }
 
@@ -278,91 +278,94 @@ void canISR(CAN_FRAME *rxMsg)
 
   volatile_packet.timestamp = millis();
 
-  if(rxMsg->id==IMU_ACC_ID)
-  {
-    memcpy(&volatile_packet.imu_acc, (imu_acc_t *)rxMsg->data.uint8, sizeof(imu_acc_t));
-    //Serial.printf("ACC Z = %f\r\n", (float)((volatile_packet.imu_acc.acc_z*0.061)/1000));
-    //Serial.printf("ACC X = %f\r\n", (float)((volatile_packet.imu_acc.acc_x*0.061)/1000));
-    //Serial.printf("ACC Y = %f\r\n", (float)((volatile_packet.imu_acc.acc_y*0.061)/1000));
-  }
+  Serial.println(rxMsg->id);
 
-  if(rxMsg->id==IMU_DPS_ID)
-  {
-    memcpy(&volatile_packet.imu_dps, (imu_dps_t *)rxMsg->data.uint8, sizeof(imu_dps_t));
-    //Serial.printf("DPS X = %d\r\n", volatile_packet.imu_dps.dps_x);
-    //Serial.printf("DPS Y = %d\r\n", volatile_packet.imu_dps.dps_y);
-    //Serial.printf("DPS Z = %d\r\n", volatile_packet.imu_dps.dps_z);
-  }
+  // if(rxMsg->id==IMU_ACC_ID)
+  // {
+  //   memcpy(&volatile_packet.imu_acc, (imu_acc_t *)rxMsg->data.uint8, sizeof(imu_acc_t));
+  //   Serial.printf("ACC Z = %f\r\n", (float)((volatile_packet.imu_acc.acc_z*0.061)/1000));
+  //   Serial.printf("ACC X = %f\r\n", (float)((volatile_packet.imu_acc.acc_x*0.061)/1000));
+  //   Serial.printf("ACC Y = %f\r\n", (float)((volatile_packet.imu_acc.acc_y*0.061)/1000));
+  // }
 
-  if(rxMsg->id==RPM_ID)
-  {
-    memcpy(&volatile_packet.rpm, (uint16_t *)rxMsg->data.uint8, sizeof(uint16_t));
-    //Serial.printf("RPM = %d\r\n", volatile_packet.rpm);
-  }
+  // if(rxMsg->id==IMU_DPS_ID)
+  // {
+  //   memcpy(&volatile_packet.imu_dps, (imu_dps_t *)rxMsg->data.uint8, sizeof(imu_dps_t));
+  //   Serial.printf("DPS X = %d\r\n", volatile_packet.imu_dps.dps_x);
+  //   Serial.printf("DPS Y = %d\r\n", volatile_packet.imu_dps.dps_y);
+  //   Serial.printf("DPS Z = %d\r\n", volatile_packet.imu_dps.dps_z);
+  // }
 
-  if(rxMsg->id==SPEED_ID)
-  {
-    memcpy(&volatile_packet.speed, (uint16_t *)rxMsg->data.uint8, sizeof(uint16_t));
-    //Serial.printf("Speed = %d\r\n", volatile_packet.speed);
-  }
+  // if(rxMsg->id==RPM_ID)
+  // {
+  //   memcpy(&volatile_packet.rpm, (uint16_t *)rxMsg->data.uint8, sizeof(uint16_t));
+  //   Serial.printf("RPM = %d\r\n", volatile_packet.rpm);
+  // }
 
-  if(rxMsg->id==TEMPERATURE_ID)
-  {
-    memcpy(&volatile_packet.temperature, (uint8_t *)rxMsg->data.uint8, sizeof(uint8_t));
-    //Serial.printf("Motor = %d\r\n", volatile_packet.temperature);
-  }
+  // if(rxMsg->id==SPEED_ID)
+  // {
+  //   memcpy(&volatile_packet.speed, (uint16_t *)rxMsg->data.uint8, sizeof(uint16_t));
+  //   Serial.printf("Speed = %d\r\n", volatile_packet.speed);
+  // }
 
-  if(rxMsg->id==FLAGS_ID)
-  {
-    memcpy(&volatile_packet.flags, (uint8_t *)rxMsg->data.uint8, sizeof(uint8_t));
-    //Serial.printf("Flags = %d\r\n", volatile_packet.flags);
-  }
+  // if(rxMsg->id==TEMPERATURE_ID)
+  // {
+  //   memcpy(&volatile_packet.temperature, (uint8_t *)rxMsg->data.uint8, sizeof(uint8_t));
+  //   Serial.printf("Motor = %d\r\n", volatile_packet.temperature);
+  // }
 
-  if(rxMsg->id==SOC_ID)
-  {
-    memcpy(&volatile_packet.SOC, (uint8_t *)rxMsg->data.uint8, sizeof(uint8_t));
-    //Serial.printf("SOC = %d\r\n", volatile_packet.SOC);
-  }
+  // if(rxMsg->id==FLAGS_ID)
+  // {
+  //   memcpy(&volatile_packet.flags, (uint8_t *)rxMsg->data.uint8, sizeof(uint8_t));
+  //   Serial.printf("Flags = %d\r\n", volatile_packet.flags);
+  // }
 
-  if(rxMsg->id==CVT_ID)
-  {
-    memcpy(&volatile_packet.cvt, (uint8_t *)rxMsg->data.uint8, sizeof(uint8_t));
-    //Serial.printf("CVT = %d\r\n", volatile_packet.cvt);
-  }
+  // if(rxMsg->id==SOC_ID)
+  // {
+  //   memcpy(&volatile_packet.SOC, (uint8_t *)rxMsg->data.uint8, sizeof(uint8_t));
+  //   Serial.printf("SOC = %d\r\n", volatile_packet.SOC);
+  // }
 
-  if(rxMsg->id==VOLTAGE_ID)
-  {
-    memcpy(&volatile_packet.volt, (float *)rxMsg->data.uint8, sizeof(float));
-    //Serial.printf("Volt = %f\r\n", volatile_packet.volt);
-  }  
+  // if(rxMsg->id==CVT_ID)
+  // {
+  //   memcpy(&volatile_packet.cvt, (uint8_t *)rxMsg->data.uint8, sizeof(uint8_t));
+  //   Serial.printf("CVT = %d\r\n", volatile_packet.cvt);
+  // }
+
+  // if(rxMsg->id==VOLTAGE_ID)
+  // {
+  //   memcpy(&volatile_packet.volt, (float *)rxMsg->data.uint8, sizeof(float));
+  //   Serial.printf("Volt = %f\r\n", volatile_packet.volt);
+  // }  
 
   if(rxMsg->id==CAN_BUS_INIT_ID)
   {
     memcpy(&bluetooth_packet.can_bus_init, (uint8_t *)rxMsg->data.uint8, sizeof(uint8_t));
+    Serial.print("received by can_bus_id");
   }
 
   if(rxMsg->id==INTERNET_MODEM_ID)
   {
     memcpy(&bluetooth_packet.internet_modem, (uint8_t *)rxMsg->data.uint8, sizeof(uint8_t));
+    Serial.print("received by internet_modem_id");
   }
 
   if(rxMsg->id==MQTT_CLIENT_CONNECTION_ID)
   {
     memcpy(&bluetooth_packet.mqtt_client_connection, (uint8_t *)rxMsg->data.uint8, sizeof(uint8_t));
+    Serial.print("received by mqtt_client_id");
   }
 
   if(rxMsg->id==SD_START_ID)
   {
     memcpy(&bluetooth_packet.sd_start, (uint8_t *)rxMsg->data.uint8, sizeof(uint8_t));
-    Serial.print("SD start"); Serial.println(bluetooth_packet.sd_start);
-    SerialBT.print("SD start"); SerialBT.println(bluetooth_packet.sd_start);
+    Serial.print("received by sd_start_id");
   }
 
   if(rxMsg->id==CHECK_SD_ID)
   {
     memcpy(&bluetooth_packet.check_sd, (uint8_t *)rxMsg->data.uint8, sizeof(uint8_t));
-    Serial.print("Check SD"); Serial.println(bluetooth_packet.sd_start);
-    SerialBT.print("Check SD"); SerialBT.println(bluetooth_packet.sd_start);
+    Serial.print("received by check_sd_id");
   }
 }
 
