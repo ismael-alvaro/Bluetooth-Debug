@@ -69,7 +69,7 @@ void send_sd_start(bluetooth data)
 {
   vTaskDelay(1);
   txMsg.clear(SD_START_ID);
-  Serial.println(data.sd_start);
+  //Serial.println(data.sd_start);
   txMsg << data.sd_start;
   txMsg.write();
   //txMsg.write();
@@ -79,7 +79,7 @@ void send_check_sd(bluetooth data)
 {
   vTaskDelay(1);
   txMsg.clear(CHECK_SD_ID);
-  Serial.println(data.check_sd);
+  //Serial.println(data.check_sd);
   txMsg << data.check_sd;
   txMsg.write();
 }
