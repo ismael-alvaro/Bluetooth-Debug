@@ -276,6 +276,9 @@ void canISR(CAN_FRAME *rxMsg)
   mode = !mode;
   digitalWrite(EMBEDDED_LED, mode);
 
+  Serial.print("ID recebido --> ");
+  Serial.printf("%x\n", rxMsg->id);
+
   volatile_packet.timestamp = millis();
 
   //Serial.println(rxMsg->id);
@@ -341,31 +344,36 @@ void canISR(CAN_FRAME *rxMsg)
   if(rxMsg->id==CAN_BUS_INIT_ID)
   {
     memcpy(&bluetooth_packet.can_bus_init, (uint8_t *)rxMsg->data.uint8, sizeof(uint8_t));
-    Serial.print("received by can_bus_id");
+    Serial.print("received by can_bus_id --> ");
+    Serial.println(bluetooth_packet.can_bus_init);
   }
 
   if(rxMsg->id==INTERNET_MODEM_ID)
   {
     memcpy(&bluetooth_packet.internet_modem, (uint8_t *)rxMsg->data.uint8, sizeof(uint8_t));
-    Serial.print("received by internet_modem_id");
+    Serial.print("received by internet_modem_id --> ");
+    Serial.println(bluetooth_packet.internet_modem);
   }
 
   if(rxMsg->id==MQTT_CLIENT_CONNECTION_ID)
   {
     memcpy(&bluetooth_packet.mqtt_client_connection, (uint8_t *)rxMsg->data.uint8, sizeof(uint8_t));
-    Serial.print("received by mqtt_client_id");
+    Serial.print("received by mqtt_client_id --> ");
+    Serial.println(bluetooth_packet.mqtt_client_connection);
   }
 
   if(rxMsg->id==SD_START_ID)
   {
     memcpy(&bluetooth_packet.sd_start, (uint8_t *)rxMsg->data.uint8, sizeof(uint8_t));
-    Serial.print("received by sd_start_id");
+    Serial.print("received by sd_start_id --> ");
+    Serial.println(bluetooth_packet.sd_start);
   }
 
   if(rxMsg->id==CHECK_SD_ID)
   {
     memcpy(&bluetooth_packet.check_sd, (uint8_t *)rxMsg->data.uint8, sizeof(uint8_t));
-    Serial.print("received by check_sd_id");
+    Serial.print("received by check_sd_id --> ");
+    Serial.println(bluetooth_packet.check_sd);
   }
 }
 

@@ -19,11 +19,26 @@ void SdStateMachine(void *pvParameters);
 void ConnStateMachine(void *pvParameters);
 
 void envios_debug(){
-  Send_Byte_CAN(CAN_BUS_INIT_ID, bluetooth_packet.can_bus_init);
-  Send_Byte_CAN(SD_START_ID, bluetooth_packet.sd_start);
-  Send_Byte_CAN(CHECK_SD_ID, bluetooth_packet.check_sd);
-  Send_Byte_CAN(INTERNET_MODEM_ID, bluetooth_packet.internet_modem);
-  Send_Byte_CAN(MQTT_CLIENT_CONNECTION_ID, bluetooth_packet.mqtt_client_connection);
+  if(Send_Byte_CAN(CAN_BUS_INIT_ID, bluetooth_packet.can_bus_init))
+  {
+    Serial.println("can_bus_init enviado");
+  } else {Serial.println("can_bus_init não enviado");}
+
+  if(Send_Byte_CAN(INTERNET_MODEM_ID, bluetooth_packet.internet_modem)){
+    Serial.println("internet_modem enviado");
+  } else {Serial.println("internet_modem não enviado");}
+
+  if(Send_Byte_CAN(SD_START_ID, bluetooth_packet.sd_start)){
+    Serial.println("sd_start enviado");
+  } else {Serial.println("sd_start não enviado");}
+
+  if(Send_Byte_CAN(CHECK_SD_ID, bluetooth_packet.check_sd)){
+    Serial.println("check_sd enviado");
+  } else {Serial.println("check_sd não enviado");}
+
+  if(Send_Byte_CAN(MQTT_CLIENT_CONNECTION_ID, bluetooth_packet.mqtt_client_connection)){
+    Serial.println("client_connection enviado");
+  } else {Serial.println("client_connection não enviado");}
 }
 
 void setup()
@@ -42,6 +57,9 @@ void setup()
   {
     bluetooth_packet.can_bus_init = 1;
   }
+
+  Serial.print("can_bus_init --> ");
+  Serial.println(bluetooth_packet.can_bus_init);
 
   //send_can_bus_init(bluetooth_packet);
   //Send_Byte_CAN(CAN_BUS_INIT_ID, bluetooth_packet.can_bus_init);
@@ -71,6 +89,9 @@ void SdStateMachine(void *pvParameters)
     bluetooth_packet.sd_start = 0;
   }
 
+  Serial.print("_sd --> ");
+  Serial.println(bluetooth_packet.sd_start);
+
   //send_sd_start(bluetooth_packet);
   // Send_Byte_CAN(SD_START_ID, bluetooth_packet.sd_start);
 
@@ -80,6 +101,9 @@ void SdStateMachine(void *pvParameters)
   while (1)
   {
     Check_SD_for_storage();
+
+    Serial.print("bluetooth_packet.check_sd --> ");
+    Serial.println(bluetooth_packet.check_sd);
 
     //send_check_sd(bluetooth_packet);
     // Send_Byte_CAN(CHECK_SD_ID, bluetooth_packet.check_sd);
@@ -104,6 +128,9 @@ void ConnStateMachine(void *pvParameters)
     bluetooth_packet.internet_modem = 1;
   }
 
+  Serial.print("internet_modem --> ");
+  Serial.println(bluetooth_packet.internet_modem);
+
   //send_internet_modem(bluetooth_packet);
   // Send_Byte_CAN(INTERNET_MODEM_ID, bluetooth_packet.internet_modem);
 
@@ -123,6 +150,9 @@ void ConnStateMachine(void *pvParameters)
     {
       bluetooth_packet.mqtt_client_connection = 1;
     }
+
+    Serial.print("mqtt_client_connection --> ");
+    Serial.println(bluetooth_packet.mqtt_client_connection);
 
     //send_client_connection(bluetooth_packet);
     // Send_Byte_CAN(MQTT_CLIENT_CONNECTION_ID, bluetooth_packet.mqtt_client_connection);

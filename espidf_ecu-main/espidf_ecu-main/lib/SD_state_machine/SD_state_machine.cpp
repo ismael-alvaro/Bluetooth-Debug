@@ -91,6 +91,8 @@ void sdSave(bool set)
     Serial.println(F("falha no save"));
     sd_save_data.check_sd = 0;
   }
+  Serial.print("sd_save_data.check_sd --> ");
+  Serial.println(sd_save_data.check_sd);
 }
 
 String packetToString(bool err)

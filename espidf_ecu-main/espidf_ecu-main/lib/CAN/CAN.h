@@ -15,7 +15,7 @@ void send_sd_start(bluetooth data);
 void send_internet_modem(bluetooth data);
 void send_client_connection(bluetooth data);
 void send_check_sd(bluetooth data);
-void Send_Byte_CAN(uint32_t ID, uint8_t msg);
+bool Send_Byte_CAN(uint32_t ID, uint8_t msg);
 bluetooth update_packet_sd_save(void);
 
 /* Interrupt */

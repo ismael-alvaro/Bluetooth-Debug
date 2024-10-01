@@ -103,14 +103,18 @@ void send_check_sd(bluetooth data)
   }
 }
 
-void Send_Byte_CAN(uint32_t ID, uint8_t msg){
+bool Send_Byte_CAN(uint32_t ID, uint8_t msg){
   vTaskDelay(1);
   txMsg.clear(ID);
   txMsg << msg;
   //txMsg.write();
-  if(txMsg.write()){
-    Serial.print(ID);
-    Serial.println(" enviado");
+  if(txMsg.write())
+  {
+    return true;
+  }
+  else
+  {
+    return false;
   }
 }
 
