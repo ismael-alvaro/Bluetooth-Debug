@@ -18,6 +18,14 @@ bluetooth bluetooth_packet;
 void SdStateMachine(void *pvParameters);
 void ConnStateMachine(void *pvParameters);
 
+void envios_debug(){
+  Send_Byte_CAN(CAN_BUS_INIT_ID, bluetooth_packet.can_bus_init);
+  Send_Byte_CAN(SD_START_ID, bluetooth_packet.sd_start);
+  Send_Byte_CAN(CHECK_SD_ID, bluetooth_packet.check_sd);
+  Send_Byte_CAN(INTERNET_MODEM_ID, bluetooth_packet.internet_modem);
+  Send_Byte_CAN(MQTT_CLIENT_CONNECTION_ID, bluetooth_packet.mqtt_client_connection);
+}
+
 void setup()
 {
   Serial.begin(115200);
@@ -35,7 +43,8 @@ void setup()
     bluetooth_packet.can_bus_init = 1;
   }
 
-  send_can_bus_init(bluetooth_packet);
+  //send_can_bus_init(bluetooth_packet);
+  //Send_Byte_CAN(CAN_BUS_INIT_ID, bluetooth_packet.can_bus_init);
 
   /* Tasks */
   // This state machine is responsible for the Basic CAN logging
@@ -62,7 +71,8 @@ void SdStateMachine(void *pvParameters)
     bluetooth_packet.sd_start = 0;
   }
 
-  send_sd_start(bluetooth_packet);
+  //send_sd_start(bluetooth_packet);
+  // Send_Byte_CAN(SD_START_ID, bluetooth_packet.sd_start);
 
   /* For synchronization between ECU and panel */
   Send_SOT_msg(_sot);
@@ -71,7 +81,8 @@ void SdStateMachine(void *pvParameters)
   {
     Check_SD_for_storage();
 
-    send_check_sd(bluetooth_packet);
+    //send_check_sd(bluetooth_packet);
+    // Send_Byte_CAN(CHECK_SD_ID, bluetooth_packet.check_sd);
 
     vTaskDelay((_sd ? 1 : 100));
   }
@@ -93,7 +104,8 @@ void ConnStateMachine(void *pvParameters)
     bluetooth_packet.internet_modem = 1;
   }
 
-  send_internet_modem(bluetooth_packet);
+  //send_internet_modem(bluetooth_packet);
+  // Send_Byte_CAN(INTERNET_MODEM_ID, bluetooth_packet.internet_modem);
 
   Send_SOT_msg(_sot);
 
@@ -112,9 +124,12 @@ void ConnStateMachine(void *pvParameters)
       bluetooth_packet.mqtt_client_connection = 1;
     }
 
-    send_client_connection(bluetooth_packet);
+    //send_client_connection(bluetooth_packet);
+    // Send_Byte_CAN(MQTT_CLIENT_CONNECTION_ID, bluetooth_packet.mqtt_client_connection);
 
     Send_msg_MQTT();
+
+    envios_debug();
 
     vTaskDelay(1);
   }

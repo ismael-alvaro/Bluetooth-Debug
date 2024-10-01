@@ -278,7 +278,7 @@ void canISR(CAN_FRAME *rxMsg)
 
   volatile_packet.timestamp = millis();
 
-  Serial.println(rxMsg->id);
+  //Serial.println(rxMsg->id);
 
   // if(rxMsg->id==IMU_ACC_ID)
   // {

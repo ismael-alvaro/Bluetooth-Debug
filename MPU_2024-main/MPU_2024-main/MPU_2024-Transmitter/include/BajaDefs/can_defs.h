@@ -22,14 +22,19 @@
 #define FUEL_ID         0x500       // 2by           
 #define VOLTAGE_ID      0x502       // 4by
 #define CURRENT_ID      0x505       // 4by 
+#define CAN_BUS_INIT_ID             0x510
+#define INTERNET_MODEM_ID           0x520
+#define MQTT_CLIENT_CONNECTION_ID   0x530
+#define SD_START_ID                 0x540
+#define CHECK_SD_ID                 0x550
 #define LAT_ID          0x600       // 8by
 #define LNG_ID          0x700       // 8by
 
-#define CAN_BUS_INIT_ID             0x800
-#define INTERNET_MODEM_ID           0x801
-#define MQTT_CLIENT_CONNECTION_ID   0x802
-#define SD_START_ID                 0x803
-#define CHECK_SD_ID                 0x804
+// #define CAN_BUS_INIT_ID             0x800
+// #define INTERNET_MODEM_ID           0x801
+// #define MQTT_CLIENT_CONNECTION_ID   0x802
+// #define SD_START_ID                 0x803
+// #define CHECK_SD_ID                 0x804
 
 #define LORA_INIT_ID                0x950
 

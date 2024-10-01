@@ -46,7 +46,11 @@ void send_can_bus_init(bluetooth data)
   vTaskDelay(1);
   txMsg.clear(CAN_BUS_INIT_ID);
   txMsg << data.can_bus_init;
-  txMsg.write();
+  //txMsg.write();
+  if(txMsg.write())
+  {
+    Serial.println("send_can_bus_init enviado");
+  }
 }
 
 void send_internet_modem(bluetooth data)
@@ -54,7 +58,11 @@ void send_internet_modem(bluetooth data)
   vTaskDelay(1);
   txMsg.clear(INTERNET_MODEM_ID);
   txMsg << data.internet_modem;
-  txMsg.write();
+  //txMsg.write();
+  if(txMsg.write())
+  {
+  Serial.println("send_internet_modem enviado");
+  }
 }
 
 void send_client_connection(bluetooth data)
@@ -62,7 +70,11 @@ void send_client_connection(bluetooth data)
   vTaskDelay(1);
   txMsg.clear(MQTT_CLIENT_CONNECTION_ID);
   txMsg << data.mqtt_client_connection;
-  txMsg.write();
+  //txMsg.write();
+  if(txMsg.write())
+  {
+  Serial.println("send_client_connection enviado");
+  }
 }
 
 void send_sd_start(bluetooth data)
@@ -71,8 +83,11 @@ void send_sd_start(bluetooth data)
   txMsg.clear(SD_START_ID);
   //Serial.println(data.sd_start);
   txMsg << data.sd_start;
-  txMsg.write();
   //txMsg.write();
+  if(txMsg.write())
+  {
+  Serial.println("send_sd_start enviado");
+  }
 }
 
 void send_check_sd(bluetooth data)
@@ -81,7 +96,22 @@ void send_check_sd(bluetooth data)
   txMsg.clear(CHECK_SD_ID);
   //Serial.println(data.check_sd);
   txMsg << data.check_sd;
-  txMsg.write();
+  //txMsg.write();
+  if(txMsg.write())
+  {
+  Serial.println("send_check_sd enviado");
+  }
+}
+
+void Send_Byte_CAN(uint32_t ID, uint8_t msg){
+  vTaskDelay(1);
+  txMsg.clear(ID);
+  txMsg << msg;
+  //txMsg.write();
+  if(txMsg.write()){
+    Serial.print(ID);
+    Serial.println(" enviado");
+  }
 }
 
 mqtt_packet_t update_packet()
