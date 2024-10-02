@@ -17,8 +17,7 @@
 #define SOC_ID          0x302       // 1by
 #define RPM_ID          0x304       // 2by           
 #define SOT_ID          0x305       // 1by
-#define TEMPERATURE_ID  0x400       // 1by     
-
+#define TEMPERATURE_ID  0x400       // 1by          
 #define CVT_ID          0x401       // 1by
 #define FUEL_ID         0x500       // 2by           
 #define VOLTAGE_ID      0x502       // 4by
@@ -37,15 +36,17 @@
 // #define SD_START_ID                 0x803
 // #define CHECK_SD_ID                 0x804
 
+//MPU informations
+
 typedef struct
 {
     int16_t acc_x;
     int16_t acc_y;
     int16_t acc_z;
-
     int16_t dps_x;
     int16_t dps_y;
     int16_t dps_z;
+    
 } imu_t;
     
 typedef struct

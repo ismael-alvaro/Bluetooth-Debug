@@ -23,22 +23,27 @@ void envios_debug(){
   {
     Serial.println("can_bus_init enviado");
   } else {Serial.println("can_bus_init não enviado");}
+  Serial.println(bluetooth_packet.can_bus_init);
 
   if(Send_Byte_CAN(INTERNET_MODEM_ID, bluetooth_packet.internet_modem)){
     Serial.println("internet_modem enviado");
   } else {Serial.println("internet_modem não enviado");}
+  Serial.println(bluetooth_packet.internet_modem);
 
   if(Send_Byte_CAN(SD_START_ID, bluetooth_packet.sd_start)){
     Serial.println("sd_start enviado");
   } else {Serial.println("sd_start não enviado");}
+  Serial.println(bluetooth_packet.sd_start);
 
   if(Send_Byte_CAN(CHECK_SD_ID, bluetooth_packet.check_sd)){
     Serial.println("check_sd enviado");
   } else {Serial.println("check_sd não enviado");}
+  Serial.println(bluetooth_packet.check_sd);
 
   if(Send_Byte_CAN(MQTT_CLIENT_CONNECTION_ID, bluetooth_packet.mqtt_client_connection)){
     Serial.println("client_connection enviado");
   } else {Serial.println("client_connection não enviado");}
+  Serial.println(bluetooth_packet.mqtt_client_connection);
 }
 
 void setup()
@@ -80,40 +85,40 @@ void loop() { /**/ }
 /* SD State Machine */
 void SdStateMachine(void *pvParameters)
 {
-  // _sd = start_SD_device();
+   _sd = start_SD_device();
 
-  Serial.println("_sd -> "); //Serial.println(_sd);
+  //Serial.println("_sd -> "); //Serial.println(_sd);
 
-  // if (_sd)
-  // {
-  //   bluetooth_packet.sd_start = 1;
-  // }
-  // else
-  // {
-  //   bluetooth_packet.sd_start = 0;
-  // }
+  if (_sd)
+  {
+    bluetooth_packet.sd_start = 1;
+  }
+  else
+  {
+    bluetooth_packet.sd_start = 0;
+  }
 
-  //Serial.print("_sd --> ");
-  //Serial.println(bluetooth_packet.sd_start);
+  Serial.print("_sd --> ");
+  Serial.println(bluetooth_packet.sd_start);
 
   //send_sd_start(bluetooth_packet);
   // Send_Byte_CAN(SD_START_ID, bluetooth_packet.sd_start);
 
   /* For synchronization between ECU and panel */
-  // Send_SOT_msg(_sot);
+   Send_SOT_msg(_sot);
 
   while (1)
   {
-  //   Check_SD_for_storage();
+    Check_SD_for_storage();
 
-  //   //Serial.print("bluetooth_packet.check_sd --> ");
-  //   //Serial.println(bluetooth_packet.check_sd);
+    Serial.print("bluetooth_packet.check_sd --> ");
+    Serial.println(bluetooth_packet.check_sd);
 
-  //   //send_check_sd(bluetooth_packet);
-  //   // Send_Byte_CAN(CHECK_SD_ID, bluetooth_packet.check_sd);
+    //send_check_sd(bluetooth_packet);
+    // Send_Byte_CAN(CHECK_SD_ID, bluetooth_packet.check_sd);
 
-  //   vTaskDelay((_sd ? 1 : 100));
-  vTaskDelay(1);
+    //vTaskDelay((_sd ? 1 : 100));
+  vTaskDelay(10000);
 
    }
       vTaskDelay(1);
