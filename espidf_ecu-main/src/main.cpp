@@ -109,8 +109,9 @@ void SdStateMachine(void *pvParameters)
 
   while (1)
   {
-    Check_SD_for_storage();
+    Check_SD_for_storage(bluetooth_packet);
 
+    Serial.println("Into the function");
     Serial.print("bluetooth_packet.check_sd --> ");
     Serial.println(bluetooth_packet.check_sd);
 

@@ -7,7 +7,7 @@
 #include "CAN.h"
 #include "hardware_defs.h"
 #include "can_defs.h"
-//#include "packets.h" 
+#include "packets.h" 
 
 void pinConfig(void); // Hardware and Interrupt Config
 
@@ -17,7 +17,7 @@ bool sdConfig(void);
 int countFiles(File dir);
 void sdSave(bool set); 
 String packetToString(bool err);
-void Check_SD_for_storage();
+void Check_SD_for_storage(bluetooth bluetooth_packet);
 
 /* Ticker definitions */
 void setup_SD_ticker(void);

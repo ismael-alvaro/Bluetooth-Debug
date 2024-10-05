@@ -57,9 +57,9 @@ typedef struct
 typedef struct
 {
     //MPU_Bluetooth (sent by physical serial connection)
-    String config_bluetooth_enabled;
-    String config_bluedroid_enabled;
-    String config_bt_spp_enabled;
+    // String config_bluetooth_enabled;
+    // String config_bluedroid_enabled;
+    // String config_bt_spp_enabled;
 
     //MPU
     uint8_t lora_init;
@@ -70,6 +70,15 @@ typedef struct
     uint8_t mqtt_client_connection;
     uint8_t sd_start;
     uint8_t check_sd;
+
+    //FRONT
+    uint8_t accel_begin;
+    
+    //REAR
+    uint8_t termistor;
+    uint8_t cvt_temperature;
+    uint8_t measure_volt;
+    uint8_t speed_current_period;
     
 } bluetooth;
 

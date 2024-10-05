@@ -100,6 +100,13 @@ void bluetooth_debug(){
   SerialBT.print("Conexão do cliente MQTT = ");         if(bluetooth_packet.mqtt_client_connection == 1) SerialBT.println("OK"); else if(bluetooth_packet.mqtt_client_connection == 0) SerialBT.println("ERRO"); else SerialBT.println("NO INFO");
   SerialBT.print("Inicialização do dispositivo SD = "); if(bluetooth_packet.sd_start == 1)               SerialBT.println("OK"); else if(bluetooth_packet.sd_start == 0)               SerialBT.println("ERRO"); else SerialBT.println("NO INFO");
   SerialBT.print("Checagem do dispositivo SD = ");      if(bluetooth_packet.check_sd == 1)               SerialBT.println("OK"); else if(bluetooth_packet.check_sd == 0)               SerialBT.println("ERRO"); else SerialBT.println("NO INFO");
+  SerialBT.println("--------------------------------FRONT--------------------------------");
+  SerialBT.print("Inicialização do acelerômetro = ");   if(bluetooth_packet.accel_begin == 1)            SerialBT.println("OK"); else if(bluetooth_packet.accel_begin == 0)            SerialBT.println("ERRO"); else SerialBT.println("NO INFO");
+  SerialBT.println("--------------------------------REAR--------------------------------");
+  SerialBT.print("DDP do termistor = ");                if(bluetooth_packet.termistor == 1)              SerialBT.println("OK"); else if(bluetooth_packet.termistor == 0)              SerialBT.println("ERRO"); else SerialBT.println("NO INFO");
+  SerialBT.print("Temperatura da CVT = ");              if(bluetooth_packet.cvt_temperature == 1)        SerialBT.println("OK"); else if(bluetooth_packet.cvt_temperature == 0)        SerialBT.println("ERRO"); else SerialBT.println("NO INFO");
+  SerialBT.print("Medida da DDP = ");                   if(bluetooth_packet.measure_volt == 1)           SerialBT.println("OK"); else if(bluetooth_packet.measure_volt == 0)           SerialBT.println("ERRO"); else SerialBT.println("NO INFO");
+  SerialBT.print("Período atual da velocidade = ");     if(bluetooth_packet.speed_current_period == 1)   SerialBT.println("OK"); else if(bluetooth_packet.speed_current_period == 0)   SerialBT.println("ERRO"); else SerialBT.println("NO INFO");
 
 }
 
@@ -276,14 +283,12 @@ void canISR(CAN_FRAME *rxMsg)
   mode = !mode;
   digitalWrite(EMBEDDED_LED, mode);
 
-  if(rxMsg->id==SOT_ID){
-  Serial.print("ID REQ recebido --> ");
-  Serial.println(rxMsg->id);
-  }
+  // if(rxMsg->id==SOT_ID){
+  // Serial.print("ID REQ recebido --> ");
+  // Serial.println(rxMsg->id);
+  // }
 
   volatile_packet.timestamp = millis();
-
-  //Serial.println(rxMsg->id);
 
   // if(rxMsg->id==IMU_ACC_ID)
   // {
@@ -376,6 +381,38 @@ void canISR(CAN_FRAME *rxMsg)
     memcpy(&bluetooth_packet.check_sd, (uint8_t *)rxMsg->data.uint8, sizeof(uint8_t));
     Serial.print("received by check_sd_id --> ");
     Serial.println(bluetooth_packet.check_sd);
+  }
+
+  if(rxMsg->id==ACCEL_BEGIN_ID)
+  {
+    memcpy(&bluetooth_packet.accel_begin, (uint8_t *)rxMsg->data.uint8, sizeof(uint8_t));
+    Serial.print("received by accel_begin_id --> ");
+    Serial.println(bluetooth_packet.accel_begin);
+  }
+
+  if(rxMsg->id==TERMISTOR_ID)
+  {
+    memcpy(&bluetooth_packet.termistor, (uint8_t *)rxMsg->data.uint8, sizeof(uint8_t));
+    Serial.print("received by termistor_id --> ");
+    Serial.println(bluetooth_packet.termistor);
+  }
+  if(rxMsg->id==CVT_TEMPERATURE_ID)
+  {
+    memcpy(&bluetooth_packet.cvt_temperature, (uint8_t *)rxMsg->data.uint8, sizeof(uint8_t));
+    Serial.print("received by cvt_temperature_id --> ");
+    Serial.println(bluetooth_packet.cvt_temperature);
+  }
+  if(rxMsg->id==MEASURE_VOLT_ID)
+  {
+    memcpy(&bluetooth_packet.measure_volt, (uint8_t *)rxMsg->data.uint8, sizeof(uint8_t));
+    Serial.print("received by measure_volt_id --> ");
+    Serial.println(bluetooth_packet.measure_volt);
+  }
+  if(rxMsg->id==SPEED_CURRENT_PERIOD_ID)
+  {
+    memcpy(&bluetooth_packet.speed_current_period, (uint8_t *)rxMsg->data.uint8, sizeof(uint8_t));
+    Serial.print("received by speed_current_period_id --> ");
+    Serial.println(bluetooth_packet.speed_current_period);
   }
 }
 

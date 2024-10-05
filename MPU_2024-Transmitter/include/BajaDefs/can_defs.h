@@ -27,6 +27,11 @@
 #define MQTT_CLIENT_CONNECTION_ID   0x530
 #define SD_START_ID                 0x540
 #define CHECK_SD_ID                 0x550
+#define ACCEL_BEGIN_ID              0X560
+#define TERMISTOR_ID                0X565
+#define CVT_TEMPERATURE_ID          0x570
+#define MEASURE_VOLT_ID             0x575
+#define SPEED_CURRENT_PERIOD_ID     0x580
 #define LAT_ID          0x600       // 8by
 #define LNG_ID          0x700       // 8by
 
@@ -65,24 +70,5 @@ typedef struct
     uint32_t timestamp;
 
 } packet_t;
-
-typedef struct
-{
-    //MPU_Bluetooth (sent by physical serial connection)
-    String config_bluetooth_enabled;
-    String config_bluedroid_enabled;
-    String config_bt_spp_enabled;
-
-    //MPU
-    uint8_t lora_init;
-
-    //SCU
-    uint8_t can_bus_init;
-    uint8_t internet_modem;
-    uint8_t mqtt_client_connection;
-    uint8_t sd_start;
-    uint8_t check_sd;
-    
-} bluetooth_struct;
 
 #endif

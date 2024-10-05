@@ -73,9 +73,9 @@ int countFiles(File dir)
   return fileCountOnSD - 1;
 }
 
-void sdSave(bool set)
+void sdSave(bool set, bluetooth bluetooth_packet)
 {
-  bluetooth sd_save_data = update_packet_sd_save();
+  //bluetooth sd_save_data = update_packet_sd_save();
 
   dataFile = SD.open(file_name, FILE_APPEND);
 
@@ -85,14 +85,15 @@ void sdSave(bool set)
     dataFile.close();
     savingBlink = !savingBlink;
     digitalWrite(DEBUG_LED, savingBlink);
-    sd_save_data.check_sd = 1;
+    bluetooth_packet.check_sd = 1;
   } else {
     digitalWrite(DEBUG_LED, LOW);
     //Serial.println(F("falha no save"));
-    sd_save_data.check_sd = 0;
+    bluetooth_packet.check_sd = 0;
   }
-  // Serial.print("sd_save_data.check_sd --> ");
-  // Serial.println(sd_save_data.check_sd);
+  Serial.println("Into the function");
+  Serial.print("bluetooth_packet.check_sd --> ");
+  Serial.println(bluetooth_packet.check_sd);
 }
 
 String packetToString(bool err)
@@ -192,11 +193,11 @@ String packetToString(bool err)
   return dataString;
 }
 
-void Check_SD_for_storage()
+void Check_SD_for_storage(bluetooth bluetooth_packet)
 {
   if(saveFlag && mounted)
   {
-    sdSave(false);
+    sdSave(false, bluetooth_packet);
     saveFlag = false;    
   }
 }

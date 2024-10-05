@@ -123,10 +123,10 @@ mqtt_packet_t update_packet()
   return can_receive_packet;
 }
 
-bluetooth update_packet_sd_save()
-{
-  return sd_receive;
-}
+// bluetooth update_packet_sd_save()
+// {
+//   return sd_receive;
+// }
 
 /* CAN functions */
 void canISR(CAN_FRAME *rxMsg)
