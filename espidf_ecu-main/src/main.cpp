@@ -109,17 +109,16 @@ void SdStateMachine(void *pvParameters)
 
   while (1)
   {
-    Check_SD_for_storage(bluetooth_packet);
+    bluetooth_packet.check_sd = Check_SD_for_storage();
 
-    Serial.println("Into the function");
+    Serial.println("Out the function");
     Serial.print("bluetooth_packet.check_sd --> ");
     Serial.println(bluetooth_packet.check_sd);
 
     //send_check_sd(bluetooth_packet);
     // Send_Byte_CAN(CHECK_SD_ID, bluetooth_packet.check_sd);
 
-    //vTaskDelay((_sd ? 1 : 100));
-  vTaskDelay(10000);
+    vTaskDelay((_sd ? 1 : 100));
 
    }
       vTaskDelay(1);

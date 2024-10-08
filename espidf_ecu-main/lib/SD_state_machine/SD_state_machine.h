@@ -15,9 +15,9 @@ void pinConfig(void); // Hardware and Interrupt Config
 bool start_SD_device(void);
 bool sdConfig(void);
 int countFiles(File dir);
-void sdSave(bool set); 
+uint8_t sdSave(bool set); 
 String packetToString(bool err);
-void Check_SD_for_storage(bluetooth bluetooth_packet);
+uint8_t Check_SD_for_storage();
 
 /* Ticker definitions */
 void setup_SD_ticker(void);

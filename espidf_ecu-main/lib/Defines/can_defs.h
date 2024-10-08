@@ -32,7 +32,8 @@
 #define TERMISTOR_ID                0X565
 #define CVT_TEMPERATURE_ID          0x570
 #define MEASURE_VOLT_ID             0x575
-#define SPEED_CURRENT_PERIOD_ID     0x580
+#define SPEED_PULSE_COUNTER_ID      0x580
+#define SERVO_STATE_ID              0x585
 #define LAT_ID          0x600       // 8by
 #define LNG_ID          0x700       // 8by
 

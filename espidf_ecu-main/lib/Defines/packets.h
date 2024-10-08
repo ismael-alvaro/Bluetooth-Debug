@@ -78,7 +78,8 @@ typedef struct
     uint8_t termistor;
     uint8_t cvt_temperature;
     uint8_t measure_volt;
-    uint8_t speed_current_period;
+    uint8_t speed_pulse_counter;
+    uint16_t servo_state;
     
 } bluetooth;
 

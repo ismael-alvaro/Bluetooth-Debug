@@ -106,8 +106,8 @@ void bluetooth_debug(){
   SerialBT.print("DDP do termistor = ");                if(bluetooth_packet.termistor == 1)              SerialBT.println("OK"); else if(bluetooth_packet.termistor == 0)              SerialBT.println("ERRO"); else SerialBT.println("NO INFO");
   SerialBT.print("Temperatura da CVT = ");              if(bluetooth_packet.cvt_temperature == 1)        SerialBT.println("OK"); else if(bluetooth_packet.cvt_temperature == 0)        SerialBT.println("ERRO"); else SerialBT.println("NO INFO");
   SerialBT.print("Medida da DDP = ");                   if(bluetooth_packet.measure_volt == 1)           SerialBT.println("OK"); else if(bluetooth_packet.measure_volt == 0)           SerialBT.println("ERRO"); else SerialBT.println("NO INFO");
-  SerialBT.print("Período atual da velocidade = ");     if(bluetooth_packet.speed_current_period == 1)   SerialBT.println("OK"); else if(bluetooth_packet.speed_current_period == 0)   SerialBT.println("ERRO"); else SerialBT.println("NO INFO");
-
+  SerialBT.print("Contador de pulso da velocidade = "); if(bluetooth_packet.speed_pulse_counter == 1)    SerialBT.println("OK"); else if(bluetooth_packet.speed_pulse_counter == 0)    SerialBT.println("ERRO"); else SerialBT.println("NO INFO");
+  SerialBT.print("Estado do servo = ");                 SerialBT.println(bluetooth_packet.servo_state);
 }
 
 void setup() 
@@ -390,30 +390,36 @@ void canISR(CAN_FRAME *rxMsg)
     Serial.println(bluetooth_packet.accel_begin);
   }
 
-  if(rxMsg->id==TERMISTOR_ID)
-  {
-    memcpy(&bluetooth_packet.termistor, (uint8_t *)rxMsg->data.uint8, sizeof(uint8_t));
-    Serial.print("received by termistor_id --> ");
-    Serial.println(bluetooth_packet.termistor);
-  }
-  if(rxMsg->id==CVT_TEMPERATURE_ID)
-  {
-    memcpy(&bluetooth_packet.cvt_temperature, (uint8_t *)rxMsg->data.uint8, sizeof(uint8_t));
-    Serial.print("received by cvt_temperature_id --> ");
-    Serial.println(bluetooth_packet.cvt_temperature);
-  }
-  if(rxMsg->id==MEASURE_VOLT_ID)
-  {
-    memcpy(&bluetooth_packet.measure_volt, (uint8_t *)rxMsg->data.uint8, sizeof(uint8_t));
-    Serial.print("received by measure_volt_id --> ");
-    Serial.println(bluetooth_packet.measure_volt);
-  }
-  if(rxMsg->id==SPEED_CURRENT_PERIOD_ID)
-  {
-    memcpy(&bluetooth_packet.speed_current_period, (uint8_t *)rxMsg->data.uint8, sizeof(uint8_t));
-    Serial.print("received by speed_current_period_id --> ");
-    Serial.println(bluetooth_packet.speed_current_period);
-  }
+  // if(rxMsg->id==TERMISTOR_ID)
+  // {
+  //   memcpy(&bluetooth_packet.termistor, (uint8_t *)rxMsg->data.uint8, sizeof(uint8_t));
+  //   Serial.print("received by termistor_id --> ");
+  //   Serial.println(bluetooth_packet.termistor);
+  // }
+  // if(rxMsg->id==CVT_TEMPERATURE_ID)
+  // {
+  //   memcpy(&bluetooth_packet.cvt_temperature, (uint8_t *)rxMsg->data.uint8, sizeof(uint8_t));
+  //   Serial.print("received by cvt_temperature_id --> ");
+  //   Serial.println(bluetooth_packet.cvt_temperature);
+  // }
+  // if(rxMsg->id==MEASURE_VOLT_ID)
+  // {
+  //   memcpy(&bluetooth_packet.measure_volt, (uint8_t *)rxMsg->data.uint8, sizeof(uint8_t));
+  //   Serial.print("received by measure_volt_id --> ");
+  //   Serial.println(bluetooth_packet.measure_volt);
+  // }
+  // if(rxMsg->id==SPEED_PULSE_COUNTER_ID)
+  // {
+  //   memcpy(&bluetooth_packet.speed_pulse_counter, (uint8_t *)rxMsg->data.uint8, sizeof(uint8_t));
+  //   Serial.print("received by speed_pulse_counter_id --> ");
+  //   Serial.println(bluetooth_packet.speed_pulse_counter);
+  // }
+  // if(rxMsg->id==SERVO_STATE_ID)
+  // {
+  //   memcpy(&bluetooth_packet.servo_state, (uint8_t *)rxMsg->data.uint8, sizeof(uint8_t));
+  //   Serial.print("received by servo_state_id --> ");
+  //   Serial.println(bluetooth_packet.servo_state);
+  // }
 }
 
 void ticker500mHzISR()
